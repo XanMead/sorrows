@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script type="text/javascript">
+		function roll(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+  			return Math.floor(Math.random() * (max - min + 1) + min);
+		}
+		function redraw() {
+			// Choose floor 2 or 3
+			let floor = "" + roll(2,3);
+			// Choose row 1-34
+			let row = "" + roll(1,34);
+			// Choose left, right, middle
+			let column = ["left", "right", "middle"][roll(0,2)];
+			// Choose near/far
+			let nf = ["near","far"][roll(0,1)];
+			// Choose block 1-6
+			let block = "" + roll(1,6);
+			// Choose shelf 1-7
+			let shelf = "" + roll(1,7);
+			// Choose from left/from right
+			let side = ["left", "right"][roll(0,1)];
+			// Choose book 1-25
+			let num = "" + roll(1,25);
+			let template = `Floor ${floor}\n${column} column, row ${row}\n${nf} side\nBlock #${block}\nShelf #${shelf}\n${num} from ${side}`;
+			// drop in directions
+			document.getElementById("txt").innerHTML = template;
+		}
+	</script>
+</head>
+<body>
+	<button onclick="redraw()">Get Directions</button>
+	<div id="txt"></div>
+</body>
+</html>
