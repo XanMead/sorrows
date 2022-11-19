@@ -11,12 +11,44 @@
   			return Math.floor(Math.random() * (max - min + 1) + min);
 		}
 		function redraw() {
-			// Choose floor 2 or 3
-			let floor = "" + roll(2,3);
-			// Choose row 1-34
-			let row = "" + roll(1,34);
-			// Choose left, right, middle
-			let column = ["left", "right", "middle"][roll(0,2)];
+			var pass = false;
+			var floor, column, row;
+			while (!pass) {
+				pass = true;
+				floor = roll(2,3);
+				column = ["A","B","C","D"][roll(0,3)];
+				row = roll(1,34);
+				if (floor == 2) {
+					if (row > 24) {
+						pass = false;
+					} else if (column == "B" && row > 9 && row < 16) {
+						pass = false;
+					} else if (column == "C" && row > 9 && row < 16) {
+						pass = false;
+					} else if (column == "D" && row > 8 && row < 17) {
+						pass = false;
+					}
+				} else if (floor == 3) {
+					if (column == "B") {
+						if (row > 4 && row < 11) {
+							pass = false;
+						} else if (row > 14 && row < 21) {
+							pass = false;
+						} else if (row > 24 && row < 31) {
+							pass = false;
+						} 
+					} else if (column == "C" || column == "D") {
+						if (row < 6) {
+							pass = false;
+						} else if (row > 14 && row < 21) {
+							pass = false;
+						} else if (row > 29) {
+							pass = false;
+						}
+					}
+				}
+			}
+
 			// Choose near/far
 			let nf = ["near","far"][roll(0,1)];
 			// Choose block 1-6
@@ -27,7 +59,7 @@
 			let side = ["left", "right"][roll(0,1)];
 			// Choose book 1-25
 			let num = "" + roll(1,25);
-			let template = `Floor ${floor}\n${column} column, row ${row}\n${nf} side\nBlock #${block}\nShelf #${shelf}\n${num} from ${side}`;
+			let template = `${floor}${column}${row}, ${nf} side, Block #${block} from ${side}, Shelf #${shelf}, ${num} from ${side}`;
 			// drop in directions
 			document.getElementById("txt").innerHTML = template;
 		}
